@@ -40,19 +40,78 @@ class Admin extends Admin_Controller
               		'maxlength'   => '100',
               		'size'        => '100',
               		), 
-             'orgdb_address_01'	=> 	array(
+            'orgdb_address_01'	=> 	array(
 			 		'name'		=>	'orgdb_address_01',
 			 		'id'		=>	'orgdb_address_01',
 			 		'maxlength'	=>	'100',
 			 		'size'		=>	'50'
 			 		),
-			 'orgdb_address_02'	=> 	array(
+			'orgdb_address_02'	=> 	array(
 			 		'name'		=>	'orgdb_address_02',
 			 		'id'		=>	'orgdb_address_02',
 			 		'maxlength'	=>	'100',
 			 		'size'		=>	'50'
 			 		),
-
+			'orgdb_city'	=> 	array(
+			 		'name'		=>	'orgdb_city',
+			 		'id'		=>	'orgdb_city',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_postal'	=> 	array(
+			 		'name'		=>	'orgdb_postal',
+			 		'id'		=>	'orgdb_postal',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_phone_01'	=> 	array(
+			 		'name'		=>	'orgdb_phone_01',
+			 		'id'		=>	'orgdb_phone_01',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_phone_02'	=> 	array(
+			 		'name'		=>	'orgdb_phone_02',
+			 		'id'		=>	'orgdb_phone_02',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_phone_ext'	=> 	array(
+			 		'name'		=>	'orgdb_phone_ext',
+			 		'id'		=>	'orgdb_phone_ext',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_email_01'	=> 	array(
+			 		'name'		=>	'orgdb_email_01',
+			 		'id'		=>	'orgdb_email_01',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_email_02'	=> 	array(
+			 		'name'		=>	'orgdb_email_02',
+			 		'id'		=>	'orgdb_email_02',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_website'	=> 	array(
+			 		'name'		=>	'orgdb_website',
+			 		'id'		=>	'orgdb_website',
+			 		'maxlength'	=>	'100',
+			 		'size'		=>	'50'
+			 		),
+			'orgdb_comments'	=> 	array(
+			 		'name'		=>	'orgdb_comments',
+			 		'id'		=>	'orgdb_comments',
+			 		'maxlength'	=>	'254',
+			 		'size'		=>	'100'
+			 		),
+			'orgdb_status'	=> 	array(
+			 		'name'		=>	'orgdb_status',
+			 		'id'		=>	'orgdb_status',
+			 		'maxlength'	=>	'1',
+			 		'size'		=>	'1'
+			 		),
 	);
 	
 	//----------------------------------------------------------------------//
@@ -66,6 +125,9 @@ class Admin extends Admin_Controller
 		
 		$this->template->_country 			= $this->orgdb_country_m->get_country();
 		$this->template->_country_select 	= array_for_select($this->template->_country, 'orgdb_country_iso_02', 'orgdb_country_sname');
+
+		$this->template->_language 			= $this->orgdb_m->get_languages();
+		$this->template->_language_select 	= array_for_select($this->template->_language, 'orgdb_map_db', 'orgdb_map_lang');
 		
 		$this->_table_orgdb_main		= 	'apnplus_orgdb_main';
 		$this->_table_orgdb_country 	= 	'apnplus_orgdb_country';
@@ -214,8 +276,6 @@ class Admin extends Admin_Controller
 		}
 		redirect('admin/orgdb');
 	}
-
-	//----------------------------------------------------------------------//
 	
 	//----------------------------------------------------------------------//
 	
@@ -224,26 +284,46 @@ class Admin extends Admin_Controller
 		$orgdb_id = $this->uri->segment(4);
 	
 		$orgdb = $this->orgdb_m->get_company($orgdb_id);
-		
-				
+		$orgdb_full = $this->orgdb_m->get_company_full($orgdb_id);
+
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules($this->validation_rules);		
 		
-		if ($this->form_validation->run() === true)
+		if ($this->form_validation->run())
 		{
-			// update here
-		
-			redirect('admin/orgdb');
+			//get status value
+			$status = $this->input->post('orgdb_status',TRUE)==null ? 0 : 1;
+			$params = $this->input->post();
+			$params['orgdb_status'] = $status;
+
+			//we need to recollect all data that send from view to make sure no error will be found
+			$this->orgdb_m->update_data($params); 
+			$this->orgdb_m->update_languages($this->input->post('orgdb_language'), $id);
+
+			//message
+			$this->session->set_flashdata('success', sprintf(lang('orgdb:messages:edit:success')));
+
+			//redirect
+			($this->input->post('btnAction') == 'save_exit') ? redirect('admin/orgdb') : redirect('admin/orgdb/edit/'.$id);
 		}
 		
 		$this->template
 			->title($this->module_details['name'], sprintf(lang('user:edit_title'), 'jamesbod'))
 			->set('orgdb', $orgdb)
+			->set('orgdb_full', $orgdb_full)
 			->set('template_style', $this->template_style)
 			->build('admin/form');
 	}
 	
 	//----------------------------------------------------------------------//
 
+	public function delete($id = 0)
+	{
+		$orgdb = $this->orgdb_m->delete_data($id);
+		$this->session->set_flashdata('success', sprintf(lang('orgdb:messages:delete:success')));
+		redirect('admin/orgdb');
+	}
+
+	//----------------------------------------------------------------------//
 }
 /* End of file admin.php */

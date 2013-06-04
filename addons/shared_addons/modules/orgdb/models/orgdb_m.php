@@ -31,12 +31,7 @@ class Orgdb_m extends MY_Model {
 	public function get_all()
 	{
 		return $this->db
-					->select('orgdb_id, orgdb_company, orgdb_country, orgdb_address_01, orgdb_address_02, orgdb_city, orgdb_postal, orgdb_phone_01, 
-							orgdb_phone_02, orgdb_phone_ext, orgdb_email_01, orgdb_email_02, orgdb_website, orgdb_status, orgdb_country_sname, 
-							orgdb_lang_english, orgdb_lang_bangla, orgdb_lang_khmer, orgdb_lang_tetum, orgdb_lang_japanese, orgdb_lang_burmese,
-							orgdb_lang_pidgen, orgdb_lang_motu, orgdb_lang_vietnamese, orgdb_lang_dzhongka, orgdb_lang_mandarin, orgdb_lang_thai,
-							orgdb_lang_laos, orgdb_lang_russian, orgdb_lang_nepali, orgdb_lang_urdu, orgdb_lang_sinhala, orgdb_lang_malaysia, 
-							orgdb_lang_cantonese, orgdb_lang_tamil')
+					->select('*')
 					->join($this->_table_orgdb_country, $this->_table_orgdb_main.'.orgdb_country = '. $this->_table_orgdb_country.'.orgdb_country_iso_02', 'left')
 					->join($this->_table_orgdb_language, $this->_table_orgdb_main.'.orgdb_id = '. $this->_table_orgdb_language.'.orgdb_lang_id', 'left' )
 					->get($this->_table_orgdb_main)
@@ -46,10 +41,18 @@ class Orgdb_m extends MY_Model {
 
 	public function get_company($_orgdb_id)
 	{
-		$this->db->where($this->_table_orgdb_main.'.orgdb_id', $_orgdb_id);
+		$this->db
+			 ->where($this->_table_orgdb_main.'.orgdb_id', $_orgdb_id);
 		$_get_company = $this->get_all();
 		
 		return $this->sort_data($_get_company);
+	}
+
+	public function get_company_full($_orgdb_id)
+	{
+		$this->db
+			 ->where($this->_table_orgdb_main.'.orgdb_id', $_orgdb_id);
+		return $this->get_all();
 	}
 
 	//----------------------------------------------------------------------//
@@ -66,6 +69,15 @@ class Orgdb_m extends MY_Model {
 						'orgdb_address_01'	=>	$_orgdb_data->orgdb_address_01, 
 						'orgdb_address_02'	=>	$_orgdb_data->orgdb_address_02,
 						'orgdb_city'		=>	$_orgdb_data->orgdb_city,
+						'orgdb_postal'		=>	$_orgdb_data->orgdb_postal,
+						'orgdb_phone_01'	=>	$_orgdb_data->orgdb_phone_01,
+						'orgdb_phone_02'	=>	$_orgdb_data->orgdb_phone_02,
+						'orgdb_phone_ext'	=>	$_orgdb_data->orgdb_phone_ext,
+						'orgdb_email_01'	=>	$_orgdb_data->orgdb_email_01,
+						'orgdb_email_02'	=>	$_orgdb_data->orgdb_email_02,
+						'orgdb_website'		=>	$_orgdb_data->orgdb_website,
+						'orgdb_comments'	=>	$_orgdb_data->orgdb_comments,
+						'orgdb_status'		=>	$_orgdb_data->orgdb_status,
 						);
 			
 		}
@@ -174,6 +186,72 @@ class Orgdb_m extends MY_Model {
 		return $this->get_all();
 	}
 
+	//----------------------------------------------------------------------//
+
+	public function update_languages($languages, $id)
+	{
+		//we need to reset all current language
+		$this->reset_language($id);
+
+		foreach($languages as $language) {
+			$this->db->set($language, 1);
+		}
+		$this->db->where('orgdb_lang_id', $id);
+		$this->db->update($this->_table_orgdb_language); 
+	}
+
+	//----------------------------------------------------------------------//
+
+	public function reset_language($id)
+	{
+		//collect all fieldname
+		$fields = $this->db->list_fields($this->_table_orgdb_language);
+		
+		//remove top 2 fieldname since it use for id
+		unset($fields['0']);
+		unset($fields['1']);
+
+		foreach ($fields as $field)
+		{
+			$this->db->set($field, 0); 
+		} 
+
+		$this->db->where('orgdb_lang_id', $id);
+		$this->db->update($this->_table_orgdb_language); 
+	}
+
+	//----------------------------------------------------------------------//
+	
+	public function update_data($params)
+	{
+		$data = array(
+				'orgdb_company' 	=> $params['orgdb_company'],
+				'orgdb_country' 	=> $params['orgdb_country'],
+				'orgdb_address_01' 	=> $params['orgdb_address_01'],
+				'orgdb_address_02' 	=> $params['orgdb_address_02'],
+				'orgdb_city' 		=> $params['orgdb_city'],
+				'orgdb_postal' 		=> $params['orgdb_postal'],
+				'orgdb_phone_01' 	=> $params['orgdb_phone_01'],
+				'orgdb_phone_02' 	=> $params['orgdb_phone_02'],
+				'orgdb_phone_ext' 	=> $params['orgdb_phone_ext'],
+				'orgdb_email_01' 	=> $params['orgdb_email_01'],
+				'orgdb_email_02' 	=> $params['orgdb_email_02'],
+				'orgdb_website' 	=> $params['orgdb_website'],
+				'orgdb_comments' 	=> $params['orgdb_comments'],
+				'orgdb_status' 		=> $params['orgdb_status'],
+			);
+		$this->db->where('orgdb_id', $params['orgdb_id']);
+		$this->db->update($this->_table_orgdb_main, $data);
+	}
+	 
+	//----------------------------------------------------------------------//
+
+	public function delete_data($id)
+	{
+		$this->db->delete($this->_table_orgdb_main, array('orgdb_id' => $id));
+		$this->db->delete($this->_table_orgdb_language, array('orgdb_lang_main_id' => $id));
+	}
+	
 	//----------------------------------------------------------------------//
 
 }

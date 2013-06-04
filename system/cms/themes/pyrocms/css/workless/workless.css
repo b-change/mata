@@ -2550,3 +2550,13 @@ span.cke_skin_kama {
     page-break-after: avoid;
   }
 }
+
+
+/***********************************/
+/* Added by Agus */
+.div-form {
+  width: 175px;
+  float: left;
+}
+
+/*************************************/

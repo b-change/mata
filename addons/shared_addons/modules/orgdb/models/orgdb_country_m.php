@@ -31,8 +31,7 @@ class Orgdb_country_m extends MY_Model {
 	public function get_all()
 	{
 		return $this->db
-					->select('orgdb_country_id, orgdb_country_iso_02, orgdb_country_iso_03, orgdb_country_sname, orgdb_country_lname,
-							orgdb_country_tld, orgdb_country_status')
+					->select('*')
 					->get($this->_table_orgdb_country)
 					->result();
 	}
@@ -115,6 +114,69 @@ class Orgdb_country_m extends MY_Model {
 	}
 	
 	//----------------------------------------------------------------------//
+	
+	public function get_detail_country($id)
+	{
+		$this->db
+			 ->where($this->_table_orgdb_country.'.orgdb_country_id', $id);
+		$get_country = $this->get_all();
+		
+		return $this->sort_data($get_country);				
+	}
+	
+	//----------------------------------------------------------------------//
+
+	private function sort_data($_orgdb_country = array())
+	{
+		$_sort_data = array();
+		foreach ($_orgdb_country as $_orgdb_country_data)
+		{
+			$_sort_data = array(
+							'orgdb_country_id' 		=> $_orgdb_country_data->orgdb_country_id,
+							'orgdb_country_iso_02'	=> $_orgdb_country_data->orgdb_country_iso_02, 
+							'orgdb_country_iso_03'	=> $_orgdb_country_data->orgdb_country_iso_03,
+							'orgdb_country_iso_00'	=> $_orgdb_country_data->orgdb_country_iso_00, 
+							'orgdb_country_sname'	=> $_orgdb_country_data->orgdb_country_sname, 
+							'orgdb_country_lname'	=> $_orgdb_country_data->orgdb_country_lname,
+							'orgdb_country_is_un'	=> $_orgdb_country_data->orgdb_country_is_un,
+							'orgdb_country_code'	=> $_orgdb_country_data->orgdb_country_code,
+							'orgdb_country_tld'		=> $_orgdb_country_data->orgdb_country_tld,
+							'orgdb_country_status'	=> $_orgdb_country_data->orgdb_country_status
+						);
+			
+		}
+		
+		return $_sort_data;
+	}
+	
+	//----------------------------------------------------------------------//
+
+	public function update_data($params)
+	{
+		$data = array(
+				'orgdb_country_iso_02' 	=> $params['orgdb_country_iso_02'],
+				'orgdb_country_iso_03' 	=> $params['orgdb_country_iso_03'],
+				'orgdb_country_iso_00' 	=> $params['orgdb_country_iso_00'],
+				'orgdb_country_sname' 	=> $params['orgdb_country_sname'],
+				'orgdb_country_lname' 	=> $params['orgdb_country_lname'],
+				'orgdb_country_is_un' 	=> $params['orgdb_country_is_un'],
+				'orgdb_country_code' 	=> $params['orgdb_country_code'],
+				'orgdb_country_tld' 	=> $params['orgdb_country_tld'],
+				'orgdb_country_status' 	=> $params['orgdb_country_status'],
+			);
+		$this->db->where('orgdb_country_id', $params['orgdb_country_id']);
+		$this->db->update($this->_table_orgdb_country, $data);
+	}
+
+	//----------------------------------------------------------------------//
+
+	public function delete_data($id)
+	{
+		$this->db->delete($this->_table_orgdb_country, array('orgdb_country_id' => $id));
+	}
+	
+	//----------------------------------------------------------------------//
+
 
 }
 /* End of file orgdb_m.php */

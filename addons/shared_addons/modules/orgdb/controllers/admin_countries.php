@@ -22,13 +22,76 @@ class Admin_countries extends Admin_Controller
 	//----------------------------------------------------------------------//
 	
 	private $validation_rules = array(
-		'email' => array(
-			'field' => 'email',
-			'label' => 'lang:global:email',
-			'rules' => 'required|max_length[60]|valid_email'
-		)
+		'orgdb_country_iso_02'	=>	array(
+			'field'	=>	'orgdb_country_iso_02',
+			'label'	=>	'orgdb:label:orgdb_country_iso_02',
+			'rules'	=>	'required|max_length[2]',
+			),
+		'orgdb_country_iso_03'	=>	array(
+			'field'	=>	'orgdb_country_iso_03',
+			'label'	=>	'orgdb:label:orgdb_country_iso_03',
+			'rules'	=>	'require|max_length[3]',
+			),
 	);
 	
+	public $template_style = array(
+			'orgdb_country_iso_02'	=> array(
+				 	'name'        	=> 'orgdb_country_iso_02',
+              		'id'          	=> 'orgdb_country_iso_02',
+              		'maxlength'   	=> '10',
+              		'size'        	=> '10',
+              		), 
+            'orgdb_country_iso_03'	=> 	array(
+			 		'name'			=>	'orgdb_country_iso_03',
+			 		'id'			=>	'orgdb_country_iso_03',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'10'
+			 		),
+            'orgdb_country_iso_00'	=> 	array(
+			 		'name'			=>	'orgdb_country_iso_00',
+			 		'id'			=>	'orgdb_country_iso_00',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'10'
+			 		),
+			'orgdb_country_sname'	=> 	array(
+			 		'name'			=>	'orgdb_country_sname',
+			 		'id'			=>	'orgdb_country_sname',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'50'
+			 		),
+			'orgdb_country_lname'	=> 	array(
+			 		'name'			=>	'orgdb_country_lname',
+			 		'id'			=>	'orgdb_country_lname',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'50'
+			 		),
+			'orgdb_country_is_un'	=> 	array(
+			 		'name'			=>	'orgdb_country_is_un',
+			 		'id'			=>	'orgdb_country_is_un',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'50'
+			 		),
+			'orgdb_country_code'	=> 	array(
+			 		'name'			=>	'orgdb_country_code',
+			 		'id'			=>	'orgdb_country_code',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'10'
+			 		),
+			'orgdb_country_tld'		=> 	array(
+			 		'name'			=>	'orgdb_country_tld',
+			 		'id'			=>	'orgdb_country_tld',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'10'
+			 		),
+			'orgdb_country_status'	=> 	array(
+			 		'name'			=>	'orgdb_country_status',
+			 		'id'			=>	'orgdb_country_status',
+			 		'maxlength'		=>	'100',
+			 		'size'			=>	'50'
+			 		),
+
+	);
+
 	//----------------------------------------------------------------------//
 
 	public function __construct()
@@ -54,18 +117,19 @@ class Admin_countries extends Admin_Controller
 		$base_where['orgdb_country_status'] = $this->input->post('f_module') ? (int)$this->input->post('f_active') : $base_where['orgdb_country_status'];
 		$base_where = $this->input->post('f_keywords') ? $base_where + array('orgdb_country_name' => $this->input->post('f_keywords')) : $base_where;
 		$base_where = $this->input->post('f_country') ? $base_where + array('orgdb_country' => $this->input->post('f_country')) : $base_where;
-		
-		$pagination = create_pagination('admin/orgdb/countries/index', $this->orgdb_country_m->count_by($base_where));
-		$this->db->order_by($this->_table_orgdb_country.'.orgdb_country_id', 'asc')
-			->limit($pagination['limit'], $pagination['offset']);
-		
-		$orgdb_countries = $this->orgdb_country_m->get_many_by($base_where);
-		
-		if ($this->input->is_ajax_request())
-		{
-			$this->template->set_layout(false);
-		}
-		
+
+		// Create pagination links
+		$total_rows = $this->orgdb_country_m->count_by($base_where);
+		$pagination = create_pagination('admin/orgdb/index', $total_rows);
+
+		// Using this data, get the relevant results
+		$orgdb_countries = $this->orgdb_country_m
+			->limit($pagination['limit'], $pagination['offset'])
+			->get_many_by($base_where);
+
+		//do we need to unset the layout because the request is ajax?
+		$this->input->is_ajax_request() and $this->template->set_layout(false);
+
 		$this->template
 			->title($this->module_details['name'])
 			->set('pagination', $pagination)
@@ -191,11 +255,48 @@ class Admin_countries extends Admin_Controller
 
 	//----------------------------------------------------------------------//
 	
+	public function edit($id = 0)
+	{
+		$orgdb_country = $this->orgdb_country_m->get_detail_country($id);
+
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules($this->validation_rules);		
+		
+		if ($this->form_validation->run())
+		{
+			//get status value
+			$status = $this->input->post('orgdb_country_status',TRUE)==null ? 0 : 1;
+			$is_un = $this->input->post('orgdb_country_is_un',TRUE)==null ? 0 : 1;
+			$params = $this->input->post();
+			$params['orgdb_country_status'] = $status;
+			$params['orgdb_country_is_un'] = $is_un;
+
+			//we need to recollect all data that send from view to make sure no error will be found
+			$this->orgdb_country_m->update_data($params); 
+
+			//message
+			$this->session->set_flashdata('success', sprintf(lang('orgdb:messages:edit:success')));
+
+			//redirect
+			($this->input->post('btnAction') == 'save_exit') ? redirect('admin/orgdb/countries') : redirect('admin/orgdb/countries/edit/'.$id);
+		}
+		
+		$this->template
+			->title($this->module_details['name'], sprintf(lang('user:edit_title'), 'jamesbod'))
+			->set('orgdb_country', $orgdb_country)
+			->set('template_style', $this->template_style)
+			->build('admin/form_countries');
+	}
+
 	//----------------------------------------------------------------------//
 	
-	//----------------------------------------------------------------------//
-	
-	
+	public function delete($id = 0)
+	{
+		$orgdb = $this->orgdb_country_m->delete_data($id);
+		$this->session->set_flashdata('success', sprintf(lang('orgdb:messages:delete:success')));
+		redirect('admin/orgdb/countries');
+	}
+
 	//----------------------------------------------------------------------//
 
 }
