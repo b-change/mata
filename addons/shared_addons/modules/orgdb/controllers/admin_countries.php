@@ -120,7 +120,7 @@ class Admin_countries extends Admin_Controller
 
 		// Create pagination links
 		$total_rows = $this->orgdb_country_m->count_by($base_where);
-		$pagination = create_pagination('admin/orgdb/index', $total_rows);
+		$pagination = create_pagination('admin/orgdb/countries/index', $total_rows,null,5);
 
 		// Using this data, get the relevant results
 		$orgdb_countries = $this->orgdb_country_m
