@@ -1,0 +1,159 @@
+.header{
+	font-size: 20px;
+    font-weight: bold;
+}
+.cleardiv {
+	padding: 15px;
+}
+
+.form-content .field span {
+	color: red;
+}
+.form-content .field label {
+	width: 200px;
+	float: left;
+}
+
+.field input {
+	float: left;
+}
+
+div .field {
+	clear: both;
+	padding: 5px;
+}
+
+.content .span span {
+    color: red;
+}
+
+.action-button {
+	margin-left: 205px;
+}
+
+/* alert */
+*::-moz-selection {
+    background: none repeat scroll 0 0 #34ADE8;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.alert {
+    backface-visibility: hidden;
+    background-color: #E6E6E6;
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.15));
+    background-repeat: repeat-x;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    color: #333333;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 18px;
+    padding: 8px 15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.alert p {
+    color: #333333;
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.alert.error {
+    background-color: #D83A2E;
+    background-image: linear-gradient(#E4776F, #D83A2E);
+    background-repeat: repeat-x;
+    border-bottom-color: #B32B21;
+}
+.alert.error p {
+    color: white;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.alert.warning {
+    background-color: #FFD040;
+    background-image: linear-gradient(#FFE38D, #FFD040);
+    background-repeat: repeat-x;
+    border-bottom-color: #FFC40D;
+}
+.alert.success {
+    background-color: #62BC62;
+    background-image: linear-gradient(#97D397, #62BC62);
+    background-repeat: repeat-x;
+    border-bottom-color: #46A546;
+}
+.alert.info {
+    background-color: #04AEF4;
+    background-image: linear-gradient(#62CFFC, #04AEF4);
+    background-repeat: repeat-x;
+    border-bottom-color: #049CDB;
+}
+.alert .close:before {
+    content: "×";
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    left: 6px;
+    position: absolute;
+    top: 8px;
+}
+.alert .close {
+    border-radius: 4px 4px 4px 4px;
+    color: black;
+    display: inline-block;
+    float: right;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1px;
+    margin-right: -10px;
+    margin-top: -4px;
+    opacity: 0.2;
+    padding: 10px 12px;
+    position: relative;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+    transition: all 200ms linear 0s;
+}
+.alert .close:hover {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.6) inset;
+    opacity: 0.5;
+    text-decoration: none;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+.fadeInLeft {
+    animation-name: fadeInLeft;
+}
+.fadeInRight {
+    animation-name: fadeInRight;
+}
+.fadeInUpBig {
+    animation-name: fadeInUpBig;
+}
+.fadeInDownBig {
+    animation-name: fadeInDownBig;
+}
+.fadeInLeftBig {
+    animation-name: fadeInLeftBig;
+}
+.fadeInRightBig {
+    animation-name: fadeInRightBig;
+}
+
+.preview-span {
+    margin-left: 200px;
+}
+
+.preview-label {
+    position: absolute;
+}
