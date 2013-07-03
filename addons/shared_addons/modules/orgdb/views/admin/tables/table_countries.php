@@ -1,5 +1,5 @@
 <?php if (!empty($orgdb_countries)): ?>
-	<table border="0" class="table-list" cellpadding="0" cellspacing="0">
+	<table id="sort_table">
 		<thead>
 			<tr>
 				<th width="30" class="align-center"><?php echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all'));?></th>
@@ -30,14 +30,14 @@
 					<td><?php echo $_orgdb_data_countries->orgdb_country_lname; ?></td>
         			<td class="collapse"><?php echo ($_orgdb_data_countries->orgdb_country_status == TRUE) ? 'Activated' : 'Deactivated'; ?></td>
 					<td class="actions">
-						<?php echo anchor('admin/orgdb/countries/edit/' . $_orgdb_data_countries->orgdb_country_id, lang('global:edit'), array('class'=>'button edit')) ?>
-						<?php echo anchor('admin/orgdb/countries/delete/' . $_orgdb_data_countries->orgdb_country_id, lang('global:delete'), array('class'=>'confirm button delete')) ?>
+						<?php echo anchor('admin/orgdb/countries/edit/' . $_orgdb_data_countries->orgdb_country_id, lang('global:edit'), array('class'=>'btn blue edit')) ?>
+						<?php echo anchor('admin/orgdb/countries/delete/' . $_orgdb_data_countries->orgdb_country_id, lang('global:delete'), array('class'=>'btn red confirm')) ?>
 						<?php 
 							if($_orgdb_data_countries->orgdb_country_status == TRUE) {
-								echo anchor('admin/orgdb/countries/deactivate/' . $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:deactivate'), array('class' => 'button deactivate'));
+								echo anchor('admin/orgdb/countries/deactivate/' . $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:deactivate'), array('class' => 'btn red deactivate'));
 							}
 							else {
-								echo anchor('admin/orgdb/countries/activate/'. $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:activate'), array('class'=> 'button activate'));
+								echo anchor('admin/orgdb/countries/activate/'. $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:activate'), array('class'=> 'btn green activate'));
 							}
 						?>
 					</td>
@@ -48,3 +48,8 @@
 		</tbody>
 	</table>
 <?php endif ?>
+<script>
+$(function() {
+	$('#sort_table').tablesorter({headers:{0:{sorter:false},8:{sorter:false}}, widgets:["saveSort"]});
+});
+</script>

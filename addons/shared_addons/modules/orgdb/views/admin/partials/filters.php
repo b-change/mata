@@ -1,4 +1,4 @@
-<fieldset id="filters">
+<fieldset id="filters"  style="display: none">
 
 	<legend><?php echo lang('global:filters') ?></legend>
 	
@@ -13,10 +13,10 @@
 				<?php echo lang('orgdb:label:orgdb_country', 'f_country'); ?>
 				<?php echo form_dropdown('f_country', array(0 => lang('global:select-all')) + $_country_select) ?>
 			</li>
-			<li><?php echo lang('orgdb:label:orgdb_keywords', 'f_keywords');?>
-				<?php echo form_input('f_keywords'); ?>
+			<li class="filter"><?php echo lang('orgdb:label:orgdb_keywords', 'f_keywords');?>
+				<?php echo form_input('f_keywords', '','class="li-filter"'); ?>
 			</li>
-			<li><?php echo anchor(current_url(), lang('orgdb:label:button:refresh'), 'class="cancel"') ?></li>
+			<li class="filter"><?php echo anchor(current_url(), lang('orgdb:label:button:refresh'), 'class="cancel"') ?></li>
 		</ul>
 	<?php echo form_close() ?>
 </fieldset>

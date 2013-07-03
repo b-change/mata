@@ -1,14 +1,14 @@
 <?php if (!empty($orgdb)): ?>
-	<table border="0" class="table-list" cellpadding="0" cellspacing="0">
+	<table id="sort_table">
 		<thead>
 			<tr>
 				<th width="30" class="align-center"><?php echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all'));?></th>
-				<th width="400"><?php echo lang('orgdb:label:orgdb_company') . ' / ' . lang('orgdb:label:orgdb_address');?></th>
-				<th class="collapse"><?php echo lang('orgdb:label:orgdb_web'); ?></th>
-				<th><?php echo lang('orgdb:label:orgdb_languages'); ?></th>
-				<th><?php echo lang('orgdb:label:orgdb_country'); ?></th>
-				<th><?php echo lang('orgdb:label:orgdb_status'); ?></th>
-				<th width="200" class="align-center"><?php echo lang('orgdb:label:orgdb_action');?></th>
+				<th width="200"><?php echo lang('orgdb:label:orgdb_company') . ' / ' . lang('orgdb:label:orgdb_address');?></th>
+				<th class="collapse" width="240"><?php echo lang('orgdb:label:orgdb_web'); ?></th>
+				<th width="200"><?php echo lang('orgdb:label:orgdb_languages'); ?></th>
+				<th width="150"><?php echo lang('orgdb:label:orgdb_country'); ?></th>
+				<th width="20"><?php echo lang('orgdb:label:orgdb_status'); ?></th>
+				<th class="align-center"><?php echo lang('orgdb:label:orgdb_action');?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -65,14 +65,14 @@
         			<td class="collapse"><?php echo img('/addons/shared_addons/modules/orgdb/img/flags/'. $_orgdb_data->orgdb_country. '.png', array('alt' => $_orgdb_data->orgdb_country));?> <?php echo $_orgdb_data->orgdb_country_sname; ?></td>
 					<td class="collapse"><?php echo $_orgdb_data->orgdb_status == TRUE ? 'Activated' : 'Deactivated'; ?></td>
 					<td class="actions">
-						<?php echo anchor('admin/orgdb/edit/' . $_orgdb_data->orgdb_id, lang('global:edit'), array('class'=>'button edit')) ?>
-						<?php echo anchor('admin/orgdb/delete/' . $_orgdb_data->orgdb_id, lang('global:delete'), array('class'=>'confirm button delete')) ?>
+						<?php echo anchor('admin/orgdb/edit/' . $_orgdb_data->orgdb_id, lang('global:edit'), array('class'=>'btn blue edit')) ?>
+						<?php echo anchor('admin/orgdb/delete/' . $_orgdb_data->orgdb_id, lang('global:delete'), array('class'=>'btn red confirm')) ?>
 						<?php 
 							if($_orgdb_data->orgdb_status == TRUE) {
-								echo anchor('admin/orgdb/deactivate/' . $_orgdb_data->orgdb_id, lang('orgdb:label:button:deactivate'), array('class' => 'button deactivate'));
+								echo anchor('admin/orgdb/deactivate/' . $_orgdb_data->orgdb_id, lang('orgdb:label:button:deactivate'), array('class' => 'btn red deactivate'));
 							}
 							else {
-								echo anchor('admin/orgdb/activate/'. $_orgdb_data->orgdb_id, lang('orgdb:label:button:activate'), array('class'=> 'button activate'));
+								echo anchor('admin/orgdb/activate/'. $_orgdb_data->orgdb_id, lang('orgdb:label:button:activate'), array('class'=> 'btn grees activate'));
 							}
 						?>
 					</td>
@@ -83,3 +83,8 @@
 		</tbody>
 	</table>
 <?php endif ?>
+<script>
+$(function() {
+	$('#sort_table').tablesorter({headers:{0:{sorter:false},8:{sorter:false}}, widgets:["saveSort"]});
+});
+</script>

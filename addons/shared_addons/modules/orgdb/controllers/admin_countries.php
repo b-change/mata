@@ -135,7 +135,11 @@ class Admin_countries extends Admin_Controller
 			->set('pagination', $pagination)
 			->set('orgdb_countries', $orgdb_countries)
 			->set_partial('filters', 'admin/partials/filters')
-			->append_js('admin/filter.js');
+			->append_js('admin/filter.js')
+			->append_js('module::general.js')
+			->append_css('module::style.css')
+			->append_js('module::jquery.tablesort.js')
+			->append_js('module::jquery.tablesort.plugins.js');
 
 		$this->input->is_ajax_request() ? $this->template->build('admin/tables/table_countries') : $this->template->build('admin/countries');
 	}

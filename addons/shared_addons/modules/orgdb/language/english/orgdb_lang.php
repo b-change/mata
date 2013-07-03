@@ -16,8 +16,12 @@
  */
 
 //menus
-$lang['orgdb:menu:index']						=	'Main Database';
-$lang['orgdb:menu:countries']					= 	'Country Database';
+$lang['orgdb:menu:title']							= 	'APN+';
+$lang['orgdb:menu:index']							=	'Main Database';
+$lang['orgdb:menu:countries']						= 	'Country Database';
+
+//section
+$lang['orgdb:section:orgdb']						= 	'OrgDB';
 
 //messages
 $lang['robots:message:success']					=	'Robots.txt has been saved';
@@ -56,6 +60,7 @@ $lang['orgdb:label:dropdown:activated']				=	'Activated';
 $lang['orgdb:label:button:refresh']					= 	'Refresh';
 $lang['orgdb:label:orgdb_active']					=	'Active';
 $lang['orgdb:label:orgdb_keywords']					=	'Keywords';
+
 //labels -- countries
 $lang['orgdb:label:orgdb_country_id']				=	$lang['orgdb:label:orgdb_id'];
 $lang['orgdb:label:orgdb_country_iso_02']			=	'ISO 02';

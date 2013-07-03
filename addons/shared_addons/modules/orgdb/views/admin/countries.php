@@ -1,5 +1,6 @@
 <section class="title">
 	<h4><?php echo lang('orgdb:title:countries'); ?></h4>
+	<a class="tooltip-s show-filter" original-title="<?php echo lang('firesale:label_showfilter'); ?>"></a>
 </section>
 
 <section class="item">

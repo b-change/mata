@@ -159,7 +159,11 @@ class Admin extends Admin_Controller
 			->set('pagination', $pagination)
 			->set('orgdb', $orgdb)
 			->set_partial('filters', 'admin/partials/filters')
-			->append_js('admin/filter.js');
+			->append_js('admin/filter.js')
+			->append_js('module::general.js')
+			->append_css('module::style.css')
+			->append_js('module::jquery.tablesort.js')
+			->append_js('module::jquery.tablesort.plugins.js');
 
 		$this->input->is_ajax_request() ? $this->template->build('admin/tables/table_orgdb') : $this->template->build('admin/index');
 	}
@@ -292,9 +296,9 @@ class Admin extends Admin_Controller
 		if ($this->form_validation->run())
 		{
 			//get status value
-			$status = $this->input->post('orgdb_status',TRUE)==null ? 0 : 1;
+			$result = $this->input->post('orgdb_status',TRUE)==null ? 0 : 1;
 			$params = $this->input->post();
-			$params['orgdb_status'] = $status;
+			$params['orgdb_status'] = $result;
 
 			//we need to recollect all data that send from view to make sure no error will be found
 			$this->orgdb_m->update_data($params); 

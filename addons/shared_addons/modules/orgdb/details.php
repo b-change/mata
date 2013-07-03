@@ -17,6 +17,7 @@
  class Module_Orgdb extends Module {
  	
 	 public $version = '1.0.2.17';
+	 public $language_file = 'orgdb/orgdb';
 	
 	//----------------------------------------------------------------------//
 	
@@ -27,6 +28,8 @@
 		$this->orgdb_lang 		= 'apnplus_orgdb_language';
 		$this->orgdb_lang_map	= 'apnplus_orgdb_lang_map';
 		$this->orgdb_country 	= 'apnplus_orgdb_country';
+
+		$this->lang->load($this->language_file);
 	}
 	
 	//----------------------------------------------------------------------//
@@ -45,30 +48,40 @@
             'backend'   =>  TRUE,
             'skip_xss'  =>  TRUE,
             'author'    =>  'dev_null',
-            'menu'      =>  'content',
-            'roles'     =>  'admin_orgdb',   
+            'roles'     =>  'admin_orgdb',
+            'sections' 	=> array(
+            	'orgdb'  	=> array(
+            		'name'  	=> 	'orgdb:menu:index',
+            		'uri'   	=>  'admin/orgdb'
+            	),
+            	'countries'  	=> array(
+            		'name'  	=> 	'orgdb:menu:countries',
+            		'uri'   	=>  'admin/orgdb/countries'
+            	),
+            ) 
 		);
-        
-        //Sections 
-        $info['sections']['orgdb'] = array(
-            'name'  => 	'orgdb:menu:index',
-            'uri'   =>  'admin/orgdb'
-            );
-		$info['sections']['countries'] = array(
-            'name'  =>  'orgdb:menu:countries',
-            'uri'   =>  'admin/orgdb/countries'
-            );
         
         return $info;
     }
 
 	//----------------------------------------------------------------------//
+
+	public function admin_menu(&$menu)
+    {
+
+        // Create our main menu
+        add_admin_menu_place('lang:orgdb:menu:title', 2);
+
+        // Assign common items
+        $menu['lang:orgdb:menu:title']['lang:orgdb:section:orgdb']    = 'admin/orgdb';
+    }
+
+    //----------------------------------------------------------------------//
 	
 	public function install()
 	{
 		$_install0 = $this->uninstall();
 		$_install1 = $this->orgdb_install_schema();
-		//$_install2 = $this->orgdb_create_triggers();
 		$_install3 = $this->orgdb_insert_main_data();
 		$_install4 = $this->orgdb_insert_country_data();
 		$_install5 = $this->orgdb_insert_lang_map_data();

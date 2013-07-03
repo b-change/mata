@@ -17,6 +17,13 @@
 //page titles
 $lang['contactus:title:contact']							=	'Contact Us';
 
+//menus
+$lang['contactus:menu:comment']								=	'Comment';
+$lang['contactus:menu:setting']								=	'Setting';
+
+//section
+$lang['contactus:section:contactus']						=	'Contact Us';
+
 //labels
 $lang['contactus:label:name']								=	'Name';
 $lang['contactus:label:company_name']						=	'Company Name';

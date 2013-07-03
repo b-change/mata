@@ -17,6 +17,7 @@
  class Module_Contactus extends Module {
     
      public $version = '1.0.0';
+     public $language_file = 'contactus/contactus';
     
     //----------------------------------------------------------------------//
     
@@ -25,6 +26,8 @@
         parent::__construct();
         $this->contact          = 'apnplus_orgdb_contact_us';
         $this->contact_setting  = 'apnplus_orgdb_contact_us_setting';
+
+        $this->lang->load($this->language_file);
     }
     
     //----------------------------------------------------------------------//
@@ -34,26 +37,33 @@
         
         $info = array(
             'name' => array(
-                'en' => 'Contact Us'
+                'en' => 'APN+ Contact Us'
             ),
             'description' => array(
                 'en' => 'Custom Contact Us. It needs apnplus_orgdb_country'
             ),
             'frontend'  =>  TRUE,
             'backend' => TRUE,  
-            'menu' => 'content'
+            'sections'  => array(
+                'contactus'     => array(
+                    'name'      =>  'contactus:menu:comment',
+                    'uri'       =>  'admin/contactus'
+                ),
+                'setting'     => array(
+                    'name'      =>  'contactus:menu:setting',
+                    'uri'       =>  'admin/contactus/setting'
+                ),
+            )
         );
 
-        //Sections 
-        $info['sections']['contactus'] = array(
-            'name'  =>  'contactus:menu:comment',
-            'uri'   =>  'admin/contactus'
-            );
-        $info['sections']['setting'] = array(
-            'name'  =>  'contactus:menu:setting',
-            'uri'   =>  'admin/contactus/setting'
-            );
         return $info;
+    }
+
+    //----------------------------------------------------------------------//
+
+    public function admin_menu(&$menu)
+    {
+        $menu['lang:orgdb:menu:title']['lang:contactus:section:contactus']    = 'admin/contactus';
     }
 
     //----------------------------------------------------------------------//
