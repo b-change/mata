@@ -57,8 +57,62 @@ $route['edit-profile']	                    = 'users/edit';
 
 $route['sitemap.xml']                       = 'sitemap/xml';
 
+/* FireSale - Category Customisation */
+$route['category/(order|style)/([a-z0-9]+)'] = 'firesale/front_category/$1/$2';
+
+/* FireSale - Category */
+$route['category(/[a-z0-9-_/]+)?(/[0-9]+)?'] = 'firesale/front_category/index$1$2';
+
+/* FireSale - Product */
+$route['product/([a-z0-9-_]+)'] = 'firesale/front_product/index/$1';
+
+/* FireSale - Cart */
+$route['cart(/:any)?'] = 'firesale/front_cart$1';
+
+/* FireSale - Single Order */
+$route['users/orders/([0-9]+)'] = 'firesale/front_orders/view_order/$1';
+
+/* FireSale - User Orders */
+$route['users/orders'] = 'firesale/front_orders/index';
+
+/* FireSale - User Addresses */
+$route['users/addresses(/:any)?'] = 'firesale/front_address$1';
+
+/* FireSale - Currency Switcher */
+$route['currency/([0-9]+)?'] = 'firesale/front_currency/change/$1';
+
+/* FireSale - New Products */
+$route['new(/:any)?(/[0-9]+)?'] = 'firesale/front_new/index$1$2';
+
 /* End of file routes.php */
 
 /* Custom Routes from PyroRoutes */
+
+/* FireSale - Category Customisation */
+$route['category/(order|style)/([a-z0-9]+)'] = 'firesale/front_category/$1/$2';
+
+/* FireSale - Category */
+$route['category(/[a-z0-9-_/]+)?(/[0-9]+)?'] = 'firesale/front_category/index$1$2';
+
+/* FireSale - Product */
+$route['product/([a-z0-9-_]+)'] = 'firesale/front_product/index/$1';
+
+/* FireSale - Cart */
+$route['cart(/:any)?'] = 'firesale/front_cart$1';
+
+/* FireSale - Single Order */
+$route['users/orders/([0-9]+)'] = 'firesale/front_orders/view_order/$1';
+
+/* FireSale - User Orders */
+$route['users/orders'] = 'firesale/front_orders/index';
+
+/* FireSale - User Addresses */
+$route['users/addresses(/:any)?'] = 'firesale/front_address$1';
+
+/* FireSale - Currency Switcher */
+$route['currency/([0-9]+)?'] = 'firesale/front_currency/change/$1';
+
+/* FireSale - New Products */
+$route['new(/:any)?(/[0-9]+)?'] = 'firesale/front_new/index$1$2';
 
 /* End of file routes.php */

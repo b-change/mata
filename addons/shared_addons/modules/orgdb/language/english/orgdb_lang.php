@@ -24,8 +24,8 @@ $lang['orgdb:menu:countries']						= 	'Country Database';
 $lang['orgdb:section:orgdb']						= 	'OrgDB';
 
 //messages
-$lang['robots:message:success']					=	'Robots.txt has been saved';
-$lang['robots:message:error']					=	'An error had occurred while saving Robots.txt';
+$lang['robots:message:success']						=	'Robots.txt has been saved';
+$lang['robots:message:error']						=	'An error had occurred while saving Robots.txt';
 
 //page titles
 $lang['orgdb:title:orgdb']							=	'APN+ Network Organizational Database';

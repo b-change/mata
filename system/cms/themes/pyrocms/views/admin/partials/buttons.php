@@ -25,7 +25,8 @@
 
 		<?php switch ($button) :
 			case 'delete': 
-				if($btn_class == 'btn') $btn_class .= ' red';
+				//if($btn_class == 'btn') $btn_class .= ' red'; //default class
+				if($btn_class == 'btn') $btn_class .= ' orange';
 			
 			?>
 				<button type="submit" name="btnAction" value="delete" class="<?php echo $btn_class; ?> confirm">
@@ -37,8 +38,18 @@
 					<span><?php echo lang('buttons:re-index'); ?></span>
 				</button>
 				<?php break;
-			case 'activate':
-			case 'deactivate':
+			case 'activate': 
+				//new improvement ?>
+				<button type="submit" name="btnAction" value="<?php echo $button ?>" class="<?php echo $btn_class; ?> green">
+					<span><?php echo lang('buttons:' . $button); ?></span>
+				</button>
+				<?php break;
+			case 'deactivate': 
+				//new improvement ?>
+				<button type="submit" name="btnAction" value="<?php echo $button ?>" class="<?php echo $btn_class; ?> red">
+					<span><?php echo lang('buttons:' . $button); ?></span>
+				</button>
+				<?php break;
 			case 'approve':
 			case 'publish':
 			case 'save':

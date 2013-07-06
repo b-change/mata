@@ -30,8 +30,6 @@
 					<td><?php echo $_orgdb_data_countries->orgdb_country_lname; ?></td>
         			<td class="collapse"><?php echo ($_orgdb_data_countries->orgdb_country_status == TRUE) ? 'Activated' : 'Deactivated'; ?></td>
 					<td class="actions">
-						<?php echo anchor('admin/orgdb/countries/edit/' . $_orgdb_data_countries->orgdb_country_id, lang('global:edit'), array('class'=>'btn blue edit')) ?>
-						<?php echo anchor('admin/orgdb/countries/delete/' . $_orgdb_data_countries->orgdb_country_id, lang('global:delete'), array('class'=>'btn red confirm')) ?>
 						<?php 
 							if($_orgdb_data_countries->orgdb_country_status == TRUE) {
 								echo anchor('admin/orgdb/countries/deactivate/' . $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:deactivate'), array('class' => 'btn red deactivate'));
@@ -40,6 +38,8 @@
 								echo anchor('admin/orgdb/countries/activate/'. $_orgdb_data_countries->orgdb_country_id, lang('orgdb:label:button:activate'), array('class'=> 'btn green activate'));
 							}
 						?>
+						<?php echo anchor('admin/orgdb/countries/edit/' . $_orgdb_data_countries->orgdb_country_id, lang('global:edit'), array('class'=>'btn blue edit')) ?>
+						<?php echo anchor('admin/orgdb/countries/delete/' . $_orgdb_data_countries->orgdb_country_id, lang('global:delete'), array('class'=>'btn orange confirm')) ?>
 					</td>
 				</tr>
 			<?php endforeach ?>

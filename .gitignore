@@ -27,3 +27,6 @@ system/cms/cache/*
 
 # Database config
 system/cms/config/database*
+
+# Example module
+addons/shared_addons/modules/firesale*
