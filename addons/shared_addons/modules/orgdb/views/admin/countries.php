@@ -11,7 +11,9 @@
 		<?php echo form_open('admin/orgdb/countries/action') ?>
 		
 			<div class="table_action_buttons">
-				<?php $this->load->view('admin/partials/buttons', array('buttons' => array('activate', 'deactivate', 'delete') )) ?>
+				<button class="btn green" name="btnAction" value="activate"><span><?php echo lang('orgdb:label:button:activate'); ?></span></button>
+                <button class="btn red" name="btnAction" value="deactivate"><?php echo lang('orgdb:label:button:deactivate'); ?></button>
+                <button class="btn orange confirm" name="btnAction" value="delete"><?php echo lang('global:delete'); ?></button>  
 			</div> <br />
 		
 			<div id="filter-stage">
@@ -19,7 +21,9 @@
 			</div>
 		
 			<div class="table_action_buttons">
-				<?php $this->load->view('admin/partials/buttons', array('buttons' => array('activate', 'deactivate', 'delete') )) ?>
+				<button class="btn green" name="btnAction" value="activate"><span><?php echo lang('orgdb:label:button:activate'); ?></span></button>
+                <button class="btn red" name="btnAction" value="deactivate"><?php echo lang('orgdb:label:button:deactivate'); ?></button>
+                <button class="btn orange confirm" name="btnAction" value="delete"><?php echo lang('global:delete'); ?></button>  
 			</div>
 	
 		<?php echo form_close() ?>
